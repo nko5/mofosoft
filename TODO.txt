@@ -1,0 +1,22 @@
+Bootstrap CSS
+User id stored with message
+User location on map
+Message list
+Messages as markers on map
+Mark message read
+Zoom map to memo visibility radius
+Auto-update location
+
+Screens
+--
+Home
+Login
+Read memo
+Memo list
+Post memo
+Memo dots on map
+
+Extras
+---
+Bundle and minify frontend scripts
+Memo types - photo, video, audio, link
