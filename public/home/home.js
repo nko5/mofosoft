@@ -1,7 +1,8 @@
 angular.module( 'sample.home', [
 'auth0'
 ])
-.controller( 'HomeCtrl', function HomeController( $scope, auth, $http, $location, store ) {
+.controller( 'HomeCtrl', function HomeController( $scope, auth, $http, $location,
+  store, uiGmapGoogleMapApi ) {
 
   $scope.auth = auth;
 
@@ -29,4 +30,16 @@ angular.module( 'sample.home', [
     $location.path('/login');
   }
 
+  if(navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function(position){
+      uiGmapGoogleMapApi.then(function(maps) {
+        $scope.map = {
+          center: {
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude
+          }, zoom: 8
+        };
+      });
+    });
+  }
 });
