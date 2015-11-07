@@ -3,6 +3,9 @@
   "version": "0.0.1",
   "description": "Location-based messaging",
   "author": "Mofosoft NKO 2015 Team",
+  "licence": "Unlicensed",
+  "repository": "git@github.com:nko5/mofosoft.git",
+  "private": true,
   "contributors": [
     {
       "name": "Andrei Railean"
