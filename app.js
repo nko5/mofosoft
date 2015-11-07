@@ -13,11 +13,11 @@ var multer = require('multer');
 var errorHandler = require('errorhandler');
 
 app.set('port', process.env.PORT || process.env.npm_package_config_port || 3000);
+app.set('view engine', 'ejs');
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
-
-app.use(express.static(path.join(__dirname, 'public')));
 
 // app.configure(function() {
 //
@@ -29,8 +29,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 // require('./server/ddata.js');
 
 app.get('/', function(req, res) {
-  res.send(200, {text: "All Good In the Hood!"});
-});
+  res.render('pages/index');
+})
 
 if ('development' == app.get('env')) {
   app.use(errorHandler());
