@@ -7,7 +7,8 @@ angular.module( 'sample', [
   'angular-storage',
   'angular-jwt',
   'uiGmapgoogle-maps',
-  'flash'
+  'flash',
+  'ngGeolocation'
 ])
 .config( function myAppConfig ( $routeProvider, authProvider, $httpProvider, $locationProvider,
   jwtInterceptorProvider, uiGmapGoogleMapApiProvider) {
