@@ -26,9 +26,11 @@ var Schema = mongoose.Schema;
 mongoose.connect(process.env.MONGODB);
 
 var MemoSchema = new Schema({
-    message  :  { type: String, default: '' }
-  , date  :  { type: Date, default: Date.now }
+  message:  { type: String, default: '' },
+  date:     { type: Date, default: Date.now },
+  loc:      { type: { type: String }, coordinates: [] }
 });
+MemoSchema.index({ loc: '2dsphere' });
 
 var Memo = mongoose.model('Memo', MemoSchema);
 
@@ -70,6 +72,10 @@ app.get('/memos', function(req, res, next) {
 app.post('/api/postmemo', function(req, res, next) {
   var memo = Memo();
   memo.message = req.body.message;
+  memo.loc = {
+    type: 'Point',
+    coordinates: [ parseFloat(req.body.longitude), parseFloat(req.body.latitude) ]
+  }
   memo.save(function (err, memo, count) {
     if( err ) return next( err );
 
