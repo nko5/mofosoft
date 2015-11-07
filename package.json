@@ -1,11 +1,22 @@
 {
-  "name": "nko2015-entry",
+  "name": "memotown",
   "version": "0.0.1",
-  "description": "Our soon to be awesome entry for NKO2015. Let's make something amazing.",
-  "author": "Node Knockout Team <all@nodeknockout.com>",
+  "description": "Location-based messaging",
+  "author": "Mofosoft NKO 2015 Team",
+  "contributors": [
+    {
+      "name": "Andrei Railean"
+    },
+    {
+      "name": "Rudy"
+    }
+  ],
   "main": "./app.js",
   "dependencies": {
-    "express": "^4.13.3"
+    "cors": "^2.7.1",
+    "dotenv": "^1.2.0",
+    "express": "^4.13.3",
+    "express-jwt": "^3.1.0"
   },
   "scripts": {
     "start": "node app.js",
