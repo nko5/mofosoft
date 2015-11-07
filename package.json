@@ -28,10 +28,8 @@
   "scripts": {
     "prestart": "npm install",
     "start": "node app.js",
-    "postinstall": [
-      "node scripts/postinstall.js",
-      "bower install"
-    ]
+    "postinstall": "node scripts/postinstall.js",
+    "postinstall": "bower install"
   },
   "config": {
     "port": "3000"

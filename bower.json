@@ -2,6 +2,7 @@
   "name": "memo-town",
   "version": "0.0.1",
   "dependencies": {
-    "angular-google-maps": "2.2.1"
+    "angular-google-maps": "2.2.1",
+    "lodash": "~3.10.1"
   }
 }
