@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "dependencies": {
     "angular-google-maps": "2.2.1",
-    "lodash": "~3.10.1"
+    "lodash": "~3.10.1",
+    "angular-flash-alert": "~1.1.1"
   }
 }

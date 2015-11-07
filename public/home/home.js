@@ -37,7 +37,7 @@ angular.module( 'sample.home', [
           center: {
             latitude: position.coords.latitude,
             longitude: position.coords.longitude
-          }, zoom: 8
+          }, zoom: 15
         };
       });
     });
