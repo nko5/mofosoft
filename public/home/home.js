@@ -1,34 +1,13 @@
-angular.module( 'sample.home', [
-'auth0'
-])
-.controller( 'HomeCtrl', function HomeController( $scope, auth, $http, $location,
-  store, uiGmapGoogleMapApi, $geolocation ) {
+var app = angular.module( 'memotown' );
 
-  $scope.auth = auth;
-
-  $scope.callApi = function() {
-    // Just call the API as you'd do using $http
-    $http({
-      url: 'http://localhost:3000/',
-      method: 'GET'
-    }).then(function() {
-      alert("We got the secured data successfully");
-    }, function(response) {
-      if (response.status == 0) {
-        alert("Please download the API seed so that you can call it.");
-      }
-      else {
-        alert(response.data);
-      }
-    });
-  }
-
-  $scope.logout = function() {
-    auth.signout();
-    store.remove('profile');
-    store.remove('token');
-    $location.path('/login');
-  }
+app.controller( 'HomeController', [
+  '$scope',
+  '$http',
+  '$location',
+  'uiGmapGoogleMapApi',
+  '$geolocation',
+  function HomeController( $scope, $http, $location,
+   uiGmapGoogleMapApi, $geolocation ) {
 
   $geolocation.getCurrentPosition({
     timeout: 50000
@@ -38,8 +17,8 @@ angular.module( 'sample.home', [
         center: {
           latitude: position.coords.latitude,
           longitude: position.coords.longitude
-        }, zoom: 15
+        }, zoom: 14
       };
     });
   });
-});
+}]);

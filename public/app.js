@@ -1,39 +1,46 @@
-angular.module( 'sample', [
+var app = angular.module( 'memotown', [
   'auth0',
-  'ngRoute',
-  'sample.home',
-  'sample.login',
-  'sample.memo',
   'angular-storage',
   'angular-jwt',
   'uiGmapgoogle-maps',
   'flash',
-  'ngGeolocation'
-])
-.config( function myAppConfig ( $routeProvider, authProvider, $httpProvider, $locationProvider,
-  jwtInterceptorProvider, uiGmapGoogleMapApiProvider) {
-  $routeProvider
-    .when( '/', {
-      controller: 'HomeCtrl',
-      templateUrl: 'home/home.html',
-      pageTitle: 'Homepage',
-      requiresLogin: true
+  'ngGeolocation',
+  'ui.router'
+]);
+
+app.config(function ($stateProvider, $urlRouterProvider) {
+  $urlRouterProvider.otherwise("/map");
+
+  $stateProvider
+    .state('login', {
+      url: "/login",
+      templateUrl: "login/login.html",
+      controller: 'LoginController'
     })
-    .when( '/memo/add', {
-      controller: 'MemoCtrl',
-      templateUrl: 'memo/add.html',
-      pageTitle: 'Add Memo'
+    .state('add_memo', {
+      url: "/add-memo",
+      templateUrl: "memo/add.html",
+      controller: 'MemoController'
     })
-    .when( '/login', {
-      controller: 'LoginCtrl',
-      templateUrl: 'login/login.html',
-      pageTitle: 'Login'
+    .state('memos', {
+      url: "/memos",
+      templateUrl: "memo/list.html",
+      controller: 'MemoListController'
+    })
+    .state('map', {
+      url: "/map",
+      templateUrl: "home/home.html",
+      controller: 'HomeController'
     });
+})
+
+app.config( function myAppConfig ( authProvider, $httpProvider, $locationProvider,
+  jwtInterceptorProvider, uiGmapGoogleMapApiProvider) {
 
   authProvider.init({
     domain: AUTH0_DOMAIN,
     clientID: AUTH0_CLIENT_ID,
-    loginUrl: '/login'
+    loginState: 'login'
   });
 
   jwtInterceptorProvider.tokenGetter = function(store) {
@@ -48,23 +55,49 @@ angular.module( 'sample', [
   uiGmapGoogleMapApiProvider.configure({
     key: 'AIzaSyBO7k92dqpBC-jSaoiGozuEFInMFNn5alw',
     v: '3.20',
-    libraries: 'weather,geometry,visualization'
+    libraries: 'geometry,visualization'
   });
-}).run(function($rootScope, auth, store, jwtHelper, $location) {
-  $rootScope.$on('$locationChangeStart', function() {
+});
+
+app.run(function($rootScope, auth, store, jwtHelper, $state, $geolocation) {
+
+  $rootScope.map_location = {};
+
+  $rootScope.geo_options = {
+    timeout: 5000,
+    maximumAge: 500
+  }
+
+  $geolocation
+  .getCurrentPosition($rootScope.geo_options)
+  .then(function(position) {
+    $rootScope.map_location = position.coords;
+  });
+
+  $rootScope.$on('$stateChangeStart', function() {
     if (!auth.isAuthenticated) {
       var token = store.get('token');
       if (token) {
         if (!jwtHelper.isTokenExpired(token)) {
           auth.authenticate(store.get('profile'), token);
         } else {
-          $location.path('/login');
+          $state.go('login');
         }
       }
     }
   });
-})
-.controller( 'AppCtrl', function AppCtrl ( $scope, $location ) {
+});
+
+app.controller( 'ApplicationController', function ApplicationController ( $scope, $state, auth, store ) {
+  $scope.auth = auth;
+
+  $scope.logout = function() {
+    auth.signout();
+    store.remove('profile');
+    store.remove('token');
+    $state.go('login');
+  }
+
   $scope.$on('$routeChangeSuccess', function(e, nextRoute){
     if ( nextRoute.$$route && angular.isDefined( nextRoute.$$route.pageTitle ) ) {
       $scope.pageTitle = nextRoute.$$route.pageTitle + ' | Memo Town' ;

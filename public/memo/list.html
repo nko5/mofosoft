@@ -1,0 +1,8 @@
+<ui-gmap-google-map center='map_center' zoom='map_zoom'>
+  <ui-gmap-markers models="markers" coords="'self'" icon="'icon'">
+  </ui-gmap-markers>
+</ui-gmap-google-map>
+
+<div ng-repeat="memo in memo_list track by memo._id">
+  <pre>{{ memo | json }}</pre>
+</div>

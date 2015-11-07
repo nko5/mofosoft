@@ -57,11 +57,13 @@ app.get('/api/memos', function(req, res, next) {
     .exec( function (err, memos) {
       if( err ) return next( err );
 
-      res.json({memos: memos});
+      res.json(memos);
     })
 });
 
 app.post('/api/memos', authenticate, function(req, res, next) {
+
+  console.log('POSTING MEMO');
 
   var memo = Memo();
   memo.message = req.body.message;

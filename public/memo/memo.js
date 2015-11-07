@@ -1,34 +1,44 @@
-angular.module( 'sample.memo', [
-'auth0'
-])
-.controller('MemoCtrl', function MemoController( $scope, auth, $http, $location,
-  store, Flash, $geolocation) {
-  $scope.auth = auth;
+var app = angular.module( 'memotown' );
 
-  $geolocation.getCurrentPosition({
-    timeout: 50000
-  }).then(function(position) {
-    $scope.latitude = position.coords.latitude;
-    $scope.longitude = position.coords.longitude;
-  });
+function MemoController( $injector, $scope, $http, $state, $geolocation) {
+
+  var flash = $injector.get('Flash');
+  $scope.loading = false;
 
   $scope.addMemo = function() {
-    $http({
-      method: 'POST',
-      url: '/api/memos',
-      data: {
-        message: $scope.memo.message,
-        latitude: $scope.latitude,
-        longitude: $scope.longitude
-      }
-    }).success(function() {
-      var message = '<strong>Well done!</strong> You just created a memo.';
-      Flash.create('success', message);
 
-      $location.path('/');
-    }).error(function(e) {
-      console.log(e);
-      Flash.create('warning', "Error");
+    $scope.loading = true;
+
+    $geolocation.getCurrentPosition({
+      timeout: 5000,
+      maximumAge: 500
+    })
+    .then(function(position) {
+
+      $http({
+        method: 'POST',
+        url: '/api/memos',
+        data: {
+          message: $scope.memo,
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude
+        }
+      })
+      .success(function() {
+        var message = '<strong>Well done!</strong> You just created a memo.';
+        flash.create('success', message);
+        $scope.loading = false;
+
+        $state.go('map');
+      })
+      .error(function(e) {
+        $scope.loading = false;
+        console.log(e);
+        flash.create('danger', "Error");
+      });
     });
+
   }
-});
+}
+
+app.controller('MemoController', MemoController);

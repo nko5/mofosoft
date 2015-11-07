@@ -1,10 +1,14 @@
 {
-  "name": "memo-town",
+  "name": "memotown",
   "version": "0.0.1",
   "dependencies": {
     "angular-google-maps": "2.2.1",
     "lodash": "~3.10.1",
     "angular-flash-alert": "~1.1.1",
-    "ngGeolocation": ">=0.0.2"
+    "ngGeolocation": ">=0.0.2",
+    "angular": "~1.4.7",
+    "angular-ui-router": "~0.2.15",
+    "angular-cookies": "~1.4.7",
+    "restangular": "~1.5.1"
   }
 }

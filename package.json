@@ -16,6 +16,7 @@
   ],
   "main": "./app.js",
   "dependencies": {
+    "auth0": "^0.8.2",
     "body-parser": "^1.14.1",
     "bower": "^1.6.5",
     "cors": "^2.7.1",
@@ -31,8 +32,7 @@
   "scripts": {
     "prestart": "npm install",
     "start": "node app.js",
-    "postinstall": "node scripts/postinstall.js",
-    "postinstall": "bower install"
+    "postinstall": "node scripts/postinstall.js && bower install"
   },
   "config": {
     "port": "3000"
