@@ -13,13 +13,23 @@
   ],
   "main": "./app.js",
   "dependencies": {
+    "body-parser": "^1.14.1",
     "cors": "^2.7.1",
     "dotenv": "^1.2.0",
+    "errorhandler": "^1.4.2",
     "express": "^4.13.3",
-    "express-jwt": "^3.1.0"
+    "express-jwt": "^3.1.0",
+    "express-session": "^1.12.1",
+    "method-override": "^2.3.5",
+    "multer": "^1.1.0"
   },
   "scripts": {
+    "prestart": "npm install",
     "start": "node app.js",
     "postinstall": "node scripts/postinstall.js"
+  },
+  "config": {
+    "port": "3000"
   }
+
 }
