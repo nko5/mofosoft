@@ -11,6 +11,20 @@ var multer = require('multer');
 var errorHandler = require('errorhandler');
 var jwt = require('express-jwt');
 var dotenv = require('dotenv');
+var mongoose = require('mongoose');
+
+var Schema = mongoose.Schema;
+
+dotenv.load();
+
+mongoose.connect(process.env.MONGODB);
+
+var MemoSchema = new Schema({
+    content  :  { type: String, default: '' }
+  , date  :  { type: Date, default: Date.now }
+});
+
+var Memo = mongoose.model('Memo', MemoSchema);
 
 app.set('port', process.env.PORT || process.env.npm_package_config_port || 3000);
 app.use(bodyParser.json());
@@ -19,9 +33,35 @@ app.use(cors());
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.get('/', function(req, res) {
-  res.send(200, {text: "All Good In the Hood!"});
+app.get('/', function(req, res, next) {
+  Memo
+    .find()
+    .exec( function (err, memos) {
+      if( err ) return next( err );
+
+      res.send({memos: memos});
+    })
 });
+
+app.get('/memos', function(req, res, next) {
+  Memo
+    .find()
+    .exec( function (err, memos) {
+      if( err ) return next( err );
+
+      res.send({memos: memos});
+    })
+});
+
+app.get('/postmemo', function(req, res, next) {
+  var memo = Memo();
+  memo.content = 'New Comment ' + Date();
+  memo.save(function (err, memo, count) {
+    if( err ) return next( err );
+
+    res.redirect('/memos');
+  });
+})
 
 if ('development' == app.get('env')) {
   app.use(errorHandler());
