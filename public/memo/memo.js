@@ -15,7 +15,7 @@ angular.module( 'sample.memo', [
   $scope.addMemo = function() {
     $http({
       method: 'POST',
-      url: '/api/postmemo',
+      url: '/api/memos',
       data: {
         message: $scope.memo.message,
         latitude: $scope.latitude,
@@ -26,8 +26,9 @@ angular.module( 'sample.memo', [
       Flash.create('success', message);
 
       $location.path('/');
-    }).error(function() {
-      alert("Error");
+    }).error(function(e) {
+      console.log(e);
+      Flash.create('warning', "Error");
     });
   }
 });

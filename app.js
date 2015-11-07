@@ -27,6 +27,7 @@ mongoose.connect(process.env.MONGODB);
 
 var MemoSchema = new Schema({
   message:  { type: String, default: '' },
+  user:     { type: String },
   date:     { type: Date, default: Date.now },
   loc:      { type: { type: String }, coordinates: [] }
 });
@@ -49,17 +50,8 @@ if ('development' == app.get('env')) {
 }
 // END Configure App
 
-app.get('/', function(req, res, next) {
-  Memo
-    .find()
-    .exec( function (err, memos) {
-      if( err ) return next( err );
+app.get('/api/memos', function(req, res, next) {
 
-      res.send({memos: memos});
-    })
-});
-
-app.get('/memos', function(req, res, next) {
   Memo
     .find()
     .exec( function (err, memos) {
@@ -69,13 +61,16 @@ app.get('/memos', function(req, res, next) {
     })
 });
 
-app.post('/api/postmemo', function(req, res, next) {
+app.post('/api/memos', authenticate, function(req, res, next) {
+
   var memo = Memo();
   memo.message = req.body.message;
+  memo.user = req.user.sub;
   memo.loc = {
     type: 'Point',
     coordinates: [ parseFloat(req.body.longitude), parseFloat(req.body.latitude) ]
   }
+
   memo.save(function (err, memo, count) {
     if( err ) return next( err );
 
