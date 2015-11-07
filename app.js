@@ -21,13 +21,12 @@ var authenticate = jwt({
   audience: process.env.AUTH0_CLIENT_ID
 });
 
-
 var Schema = mongoose.Schema;
 
 mongoose.connect(process.env.MONGODB);
 
 var MemoSchema = new Schema({
-    content  :  { type: String, default: '' }
+    message  :  { type: String, default: '' }
   , date  :  { type: Date, default: Date.now }
 });
 
@@ -68,9 +67,9 @@ app.get('/memos', function(req, res, next) {
     })
 });
 
-app.get('/api/postmemo', function(req, res, next) {
+app.post('/api/postmemo', function(req, res, next) {
   var memo = Memo();
-  memo.content = 'New Comment ' + Date();
+  memo.message = req.body.message;
   memo.save(function (err, memo, count) {
     if( err ) return next( err );
 

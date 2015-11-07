@@ -3,9 +3,11 @@ angular.module( 'sample', [
   'ngRoute',
   'sample.home',
   'sample.login',
+  'sample.memo',
   'angular-storage',
   'angular-jwt',
-  'uiGmapgoogle-maps'
+  'uiGmapgoogle-maps',
+  'flash'
 ])
 .config( function myAppConfig ( $routeProvider, authProvider, $httpProvider, $locationProvider,
   jwtInterceptorProvider, uiGmapGoogleMapApiProvider) {
@@ -16,12 +18,16 @@ angular.module( 'sample', [
       pageTitle: 'Homepage',
       requiresLogin: true
     })
+    .when( '/memo/add', {
+      controller: 'MemoCtrl',
+      templateUrl: 'memo/add.html',
+      pageTitle: 'Add Memo'
+    })
     .when( '/login', {
       controller: 'LoginCtrl',
       templateUrl: 'login/login.html',
       pageTitle: 'Login'
     });
-
 
   authProvider.init({
     domain: AUTH0_DOMAIN,
@@ -40,7 +46,7 @@ angular.module( 'sample', [
 
   uiGmapGoogleMapApiProvider.configure({
     key: 'AIzaSyBO7k92dqpBC-jSaoiGozuEFInMFNn5alw',
-    v: '3.20', //defaults to latest 3.X anyhow
+    v: '3.20',
     libraries: 'weather,geometry,visualization'
   });
 }).run(function($rootScope, auth, store, jwtHelper, $location) {
@@ -55,16 +61,12 @@ angular.module( 'sample', [
         }
       }
     }
-
   });
 })
 .controller( 'AppCtrl', function AppCtrl ( $scope, $location ) {
   $scope.$on('$routeChangeSuccess', function(e, nextRoute){
     if ( nextRoute.$$route && angular.isDefined( nextRoute.$$route.pageTitle ) ) {
-      $scope.pageTitle = nextRoute.$$route.pageTitle + ' | Auth0 Sample' ;
+      $scope.pageTitle = nextRoute.$$route.pageTitle + ' | Memo Town' ;
     }
   });
-})
-
-;
-
+});
