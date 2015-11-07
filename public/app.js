@@ -4,10 +4,11 @@ angular.module( 'sample', [
   'sample.home',
   'sample.login',
   'angular-storage',
-  'angular-jwt'
+  'angular-jwt',
+  'uiGmapgoogle-maps'
 ])
 .config( function myAppConfig ( $routeProvider, authProvider, $httpProvider, $locationProvider,
-  jwtInterceptorProvider) {
+  jwtInterceptorProvider, uiGmapGoogleMapApiProvider) {
   $routeProvider
     .when( '/', {
       controller: 'HomeCtrl',
@@ -36,6 +37,12 @@ angular.module( 'sample', [
   // NOTE: in case you are calling APIs which expect a token signed with a different secret, you might
   // want to check the delegation-token example
   $httpProvider.interceptors.push('jwtInterceptor');
+
+  uiGmapGoogleMapApiProvider.configure({
+    key: 'AIzaSyBO7k92dqpBC-jSaoiGozuEFInMFNn5alw',
+    v: '3.20', //defaults to latest 3.X anyhow
+    libraries: 'weather,geometry,visualization'
+  });
 }).run(function($rootScope, auth, store, jwtHelper, $location) {
   $rootScope.$on('$locationChangeStart', function() {
     if (!auth.isAuthenticated) {

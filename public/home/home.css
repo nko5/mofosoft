@@ -101,3 +101,5 @@ label.ng-binding{
   padding-left: 10%;
   margin-bottom: 20px;
 }
+
+.angular-google-map-container { height: 400px; }
