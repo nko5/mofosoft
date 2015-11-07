@@ -1,11 +1,14 @@
-Bootstrap CSS
-User id stored with message
+Global Nav
+User id stored with memo
 User location on map
-Message list
-Messages as markers on map
-Mark message read
+Memo list
+Memos as markers on map
+Mark memo read
 Zoom map to memo visibility radius
 Auto-update location
+Social login: TW, GH, FB, G
+Enforce memo visibility by user location
+Define memo visibility radius
 
 Screens
 --
@@ -18,5 +21,6 @@ Memo dots on map
 
 Extras
 ---
-Bundle and minify frontend scripts
 Memo types - photo, video, audio, link
+Memo life limit - expire after x time
+Bundle and minify frontend scripts
