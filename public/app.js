@@ -1,6 +1,7 @@
 var geo_options = {
   timeout: 5000,
-  maximumAge: 500
+  maximumAge: 500,
+  enableHighAccuracy: true
 };
 
 var app = angular.module( 'memotown', [
@@ -11,7 +12,8 @@ var app = angular.module( 'memotown', [
   'flash',
   'ngGeolocation',
   'ui.router',
-  'ui.gravatar'
+  'ui.gravatar',
+  'angularMoment'
 ]);
 
 app.config(function ($stateProvider, $urlRouterProvider) {

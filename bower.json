@@ -11,6 +11,8 @@
     "angular-cookies": "~1.4.7",
     "restangular": "~1.5.1",
     "angular-gravatar": "~0.4.1",
-    "Geolib": "geolib#~2.0.18"
+    "Geolib": "geolib#~2.0.18",
+    "angular-moment": "~0.10.3",
+    "moment": "~2.10.6"
   }
 }

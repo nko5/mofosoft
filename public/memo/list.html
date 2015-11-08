@@ -1,8 +1,13 @@
 <div ng-switch="location_ready">
-  <div ng-switch-when="false" class="bg-warning">
-    <h1>Acquiring Location ...</h1>
+  <div ng-switch-when="false" class="bg-warning jumbotron page-header">
+    <h1><i class="fa fa-cog fa-spin"></i> Getting Location</h1>
+    <p class="lead">
+      You need to allow location sharing to use this app
+    </p>
   </div>
   <div ng-switch-when="true">
+    <button ng-click="updateLocation()" class="btn btn-sm btn-default">Refresh Location</button>
+
     <div ng-if="map.center">
       <ui-gmap-google-map center='map.center' zoom='map.zoom' options="map_options">
         <ui-gmap-window show="window.show" coords="window.model" options="window.options" closeClick="window.closeClick()">
@@ -12,14 +17,14 @@
           </div>
         </ui-gmap-window>
 
-        <div ng-if="markers && markersOptions">
-          <ui-gmap-markers models="markers" coords="'self'" icon="'icon'" events="markersEvents" options="markersOptions">
-          </ui-gmap-markers>
-        </div>
-
         <div ng-if="my_marker">
           <ui-gmap-marker coords="my_marker.coords" options="my_marker.options" idkey="my_marker.id">
           </ui-gmap-marker>
+        </div>
+
+        <div ng-if="markers && markersOptions">
+          <ui-gmap-markers models="markers" coords="'self'" icon="'icon'" events="markersEvents" options="markersOptions">
+          </ui-gmap-markers>
         </div>
 
       </ui-gmap-google-map>
@@ -34,14 +39,15 @@
         </div>
         <div class="media-body">
           <h4 class="media-heading">{{ memo.message }}</h4>
+          {{ memo.distance }} meters away
           <p>
             <span ng-switch="auth.profile.user_id == memo.user">
             <strong class="bg-success" ng-switch-when="true">You, {{ memo.nickname }}</strong>
             <span ng-switch-when="false">{{ memo.nickname }}</span>
             </span>
 
-            posted on <i>{{ memo.date }}</i>
-            {{ memo.distance }} meters away
+            posted
+            <span am-time-ago="memo.date"></span>
           </p>
           <!-- <pre>{{ memo | json }}</pre> -->
         </div>
