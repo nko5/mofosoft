@@ -6,6 +6,14 @@ function MemoListController($scope, $rootScope, $http, $geolocation) {
   $scope.markers = [];
   $scope.my_position = {};
 
+  $scope.map_options = {
+    streetViewControl: false,
+    mapTypeControl: false,
+    panControl: false,
+    rotateControl: false,
+    scrollwheel: false
+  }
+
   $geolocation
   .getCurrentPosition(geo_options)
   .then(function(position) {

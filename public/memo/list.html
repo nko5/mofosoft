@@ -1,5 +1,5 @@
 <div ng-if="map.center">
-  <ui-gmap-google-map center='map.center' zoom='map.zoom'>
+  <ui-gmap-google-map center='map.center' zoom='map.zoom' options="map_options">
     <ui-gmap-window show="window.show" coords="window.model" options="window.options" closeClick="window.closeClick()">
       <div style="color: black">
         {{window.title}}
