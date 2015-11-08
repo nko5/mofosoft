@@ -61,6 +61,7 @@ function MemoListController($scope, $injector) {
           longitude: one_memo.loc.coordinates[0],
           latitude: one_memo.loc.coordinates[1],
           title: one_memo.message,
+          name: one_memo.name,
           icon: '/assets/img/comment-map-icon.png'
         }
       });
@@ -69,6 +70,7 @@ function MemoListController($scope, $injector) {
         click: function(marker, eventName, model, arguments) {
           $scope.window.model = model;
           $scope.window.title = model.title;
+          $scope.window.name = model.name;
           $scope.window.show = true;
         }
       };

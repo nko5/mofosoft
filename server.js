@@ -10,6 +10,7 @@ var multer = require('multer');
 var errorHandler = require('errorhandler');
 var jwt = require('express-jwt');
 var mongoose = require('mongoose');
+var auth0 = require('auth0');
 
 var dotenv = require('dotenv');
 dotenv.load();
@@ -21,6 +22,12 @@ var authenticate = jwt({
   audience: process.env.AUTH0_CLIENT_ID
 });
 
+var auth0_api = new auth0({
+  domain:       process.env.AUTH0_DOMAIN,
+  clientID:     process.env.AUTH0_CLIENT_ID,
+  clientSecret: process.env.AUTH0_CLIENT_SECRET
+});
+
 var Schema = mongoose.Schema;
 
 mongoose.connect(process.env.MONGODB);
@@ -28,6 +35,7 @@ mongoose.connect(process.env.MONGODB);
 var MemoSchema = new Schema({
   message:  { type: String, default: '' },
   user:     { type: String },
+  name:     { type: String },
   date:     { type: Date, default: Date.now },
   loc:      { type: { type: String }, coordinates: [] }
 });
@@ -84,22 +92,25 @@ app.post('/api/memos/near', function(req, res, next) {
 });
 
 app.post('/api/memos', authenticate, function(req, res, next) {
-
   console.log('POSTING MEMO');
 
-  var memo = Memo();
-  memo.message = req.body.message;
-  memo.user = req.user.sub;
-  memo.loc = {
-    type: 'Point',
-    coordinates: [ parseFloat(req.body.longitude), parseFloat(req.body.latitude) ]
-  }
+  auth0_api.getUser(req.user.sub, function(err, user) {
+    var memo = Memo();
+    memo.message = req.body.message;
+    memo.user = req.user.sub;
+    memo.name = user.name;
+    memo.loc = {
+      type: 'Point',
+      coordinates: [ parseFloat(req.body.longitude), parseFloat(req.body.latitude) ]
+    }
 
-  memo.save(function (err, memo, count) {
-    if( err ) return next( err );
+    memo.save(function (err, memo, count) {
+      if( err ) return next( err );
 
-    res.json(memo);
+      res.json(memo);
+    });
   });
+
 })
 
 var server = http.createServer(app);
