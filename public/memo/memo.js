@@ -14,7 +14,6 @@ function MemoController( $injector, $scope, $http, $state, $geolocation) {
       maximumAge: 500
     })
     .then(function(position) {
-
       $http({
         method: 'POST',
         url: '/api/memos',
