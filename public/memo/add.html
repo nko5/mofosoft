@@ -3,5 +3,5 @@
     <label for="message">Your Message</label>
     <textarea type="text" ng-model="memo" class="form-control" required rows='3'></textarea>
   </div>
-  <button type="submit" class="btn btn-default" ng-click="addMemo()" ng-disabled="loading">Submit</button>
+  <button type="submit" class="btn btn-default" ng-click="addMemo()" ng-disabled="loading || !location_ready">Submit</button>
 </form>
