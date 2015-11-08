@@ -48,12 +48,13 @@
             <span class="icon-bar"></span>
           </button>
           <a class="navbar-brand" ng-class="[{'bg-success': location_ready }, {'bg-danger': !location_ready}]" ui-sref="home">Memo Town</a>
-          <button class="btn btn-default navbar-btn" ng-click="login()"  ng-controller="LoginController" ng-if="!auth.profile">
-            Log In
-          </button>
         </div>
 
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" ng-if="auth.profile">
+        <ul class="nav navbar-nav" ng-if="!auth.profile">
+          <li><a class="nvabar-text navbar-link" ui-sref="login" ng-if="!auth.profile">Log In</a></li>
+        </ul>
+
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1"  ng-if="auth.profile">
           <ul class="nav navbar-nav">
             <li><a ui-sref="memos">Local Memos</a></li>
             <li><a ui-sref="add_memo">Post New Memo</a></li>
