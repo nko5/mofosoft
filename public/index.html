@@ -3,9 +3,6 @@
   <head>
     <title ng-bind="pageTitle"></title>
 
-    <script type="text/javascript" src="//use.typekit.net/iws6ohy.js"></script>
-    <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
-
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- font awesome from BootstrapCDN -->
@@ -50,7 +47,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" ng-class="[{'bg-success': map_location.latitude }, {'bg-danger': !map_location.latitude}]" ui-sref="map">Memo Town</a>
+          <a class="navbar-brand" ng-class="[{'bg-success': map_location.latitude }, {'bg-danger': !map_location.latitude}]" ui-sref="memos">Memo Town</a>
           <button class="btn btn-default navbar-btn" ng-click="login()"  ng-controller="LoginController" ng-if="!auth.profile">
             Log In
           </button>
