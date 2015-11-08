@@ -28,6 +28,8 @@
     <script type="text/javascript" src='/bower_components/angular-google-maps/dist/angular-google-maps.min.js'></script>
     <script type="text/javascript" src='/bower_components/angular-flash-alert/dist/angular-flash.min.js'></script>
     <script type="text/javascript" src='/bower_components/ngGeolocation/ngGeolocation.min.js'></script>
+    <script src="/bower_components/angular-gravatar/build/angular-gravatar.js"></script>
+    <script src="/bower_components/Geolib/dist/geolib.min.js" charset="utf-8"></script>
 
     <script src="app.js"></script>
     <script src="home/home.js"></script>
@@ -67,9 +69,29 @@
 
     <div flash-message="5000" ></div>
     <div class="container" ui-view></div>
-    <footer class="container" ng-if="location_ready">
-      lat: {{ map_location.latitude }}
-      lon: {{ map_location.longitude }}
+    <footer>
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-8">
+            <p><strong class="h4">MemoTown</strong> &copy; 2015</p>
+            <p>
+              Leave a memo at your location. Explore local messages.
+            </p>
+            <p>
+              Participate in your local community.
+            </p>
+          </div>
+          <div class="col-sm-4 text-right">
+            <dl ng-if="location_ready">
+              <dt>lattitude</dt>
+              <dd>{{ map_location.latitude }}</dd>
+
+              <dt>longitude</dt>
+              <dd>{{ map_location.longitude }}</dd>
+            </dl>
+          </div>
+        </div>
+      </div>
     </footer>
   </body>
 </html>

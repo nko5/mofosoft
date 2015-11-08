@@ -1,7 +1,13 @@
 <form name="form">
   <div class="form-group">
     <label for="message">Your Message</label>
-    <textarea type="text" ng-model="memo" class="form-control" required rows='3'></textarea>
+    <textarea type="text" ng-model="memo" class="form-control" required rows='3' minlenght="10" maxlength="300"></textarea>
   </div>
-  <button type="submit" class="btn btn-default" ng-click="addMemo()" ng-disabled="loading || !location_ready">Submit</button>
+  <div class="checkbox">
+    <label>
+      <input type="checkbox" ng-model="fake"> Generate fake nearby messages
+    </label>
+  </div>
+
+  <button type="submit" class="btn btn-default" ng-click="addMemo()" ng-disabled="!form.$valid || loading || !location_ready">Submit</button>
 </form>

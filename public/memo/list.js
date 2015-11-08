@@ -5,11 +5,13 @@ function MemoListController($scope, $injector) {
   var Flash = $injector.get('Flash');
   var $geolocation = $injector.get('$geolocation');
   var $http = $injector.get('$http');
+  var uiGmapGoogleMapApi = $injector.get('uiGmapGoogleMapApi');
 
   $scope.memo_list = [];
   $scope.map = {};
   $scope.markers = [];
   $scope.my_position = {};
+  $scope.auth = auth;
 
   $scope.map_options = {
     streetViewControl: false,
@@ -19,9 +21,9 @@ function MemoListController($scope, $injector) {
     scrollwheel: false
   }
 
-  $geolocation
-  .getCurrentPosition(geo_options)
-  .then(function(position) {
+  var position_promise = $geolocation.getCurrentPosition(geo_options);
+
+  position_promise.then(function(position) {
     $scope.map = {
       center: {
         latitude:  position.coords.latitude,
@@ -29,21 +31,34 @@ function MemoListController($scope, $injector) {
       },
       zoom: 16
     };
+  });
 
-    $scope.my_marker = {
-      id: '-1',
-      coords: {
-        latitude:  position.coords.latitude,
-        longitude: position.coords.longitude
-      },
-      options: {
-        draggable: false,
-        clickable: false,
-        icon: '/img/circle.svg',
-        animation: google.maps.Animation.DROP
-      }
+  position_promise.then(function(position){
+    uiGmapGoogleMapApi.then(function(maps) {
+      $scope.my_marker = {
+        id: '-1',
+        coords: {
+          latitude:  position.coords.latitude,
+          longitude: position.coords.longitude
+        },
+        options: {
+          draggable: false,
+          clickable: false,
+          icon: '/img/circle.svg',
+          animation: maps.Animation.DROP
+        }
+      };
+
+    });
+  });
+
+  uiGmapGoogleMapApi.then(function(maps) {
+    $scope.markersOptions = {
+      animation: maps.Animation.DROP
     };
+  });
 
+  position_promise.then(function(position){
     $http({
       method: 'POST',
       url: '/api/memos/near',
@@ -53,9 +68,19 @@ function MemoListController($scope, $injector) {
       }
     })
     .then(function(response) {
-      var memos = response.data;
-      $scope.memo_list = memos;
-      $scope.markers = memos.map(function(one_memo) {
+      $scope.memo_list = response.data.map(function(memo) {
+        memo.coordinates = {
+          longitude: memo.loc.coordinates[0],
+          latitude: memo.loc.coordinates[1]
+        };
+        memo.distance = geolib.getDistance({
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude
+        }, memo.coordinates);
+        return memo;
+      });
+
+      $scope.markers = $scope.memo_list.map(function(one_memo) {
         return {
           id: one_memo._id,
           longitude: one_memo.loc.coordinates[0],
@@ -73,10 +98,6 @@ function MemoListController($scope, $injector) {
           $scope.window.name = model.name;
           $scope.window.show = true;
         }
-      };
-
-      $scope.markersOptions = {
-        animation: google.maps.Animation.DROP
       };
 
       $scope.window = {

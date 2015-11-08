@@ -10,7 +10,8 @@ var app = angular.module( 'memotown', [
   'uiGmapgoogle-maps',
   'flash',
   'ngGeolocation',
-  'ui.router'
+  'ui.router',
+  'ui.gravatar'
 ]);
 
 app.config(function ($stateProvider, $urlRouterProvider) {

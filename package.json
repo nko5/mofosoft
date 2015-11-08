@@ -36,5 +36,8 @@
   },
   "config": {
     "port": "3000"
+  },
+  "devDependencies": {
+    "faker": "^3.0.1"
   }
 }

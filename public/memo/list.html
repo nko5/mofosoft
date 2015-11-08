@@ -1,21 +1,52 @@
-<div ng-if="map.center">
-  <ui-gmap-google-map center='map.center' zoom='map.zoom' options="map_options">
-    <ui-gmap-window show="window.show" coords="window.model" options="window.options" closeClick="window.closeClick()">
-      <div style="color: black">
-        {{window.title}} <br />
-        By {{window.name}}
+<div ng-switch="location_ready">
+  <div ng-switch-when="false" class="bg-warning">
+    <h1>Acquiring Location ...</h1>
+  </div>
+  <div ng-switch-when="true">
+    <div ng-if="map.center">
+      <ui-gmap-google-map center='map.center' zoom='map.zoom' options="map_options">
+        <ui-gmap-window show="window.show" coords="window.model" options="window.options" closeClick="window.closeClick()">
+          <div style="color: black">
+            {{window.title}} <br />
+            By {{window.name}}
+          </div>
+        </ui-gmap-window>
+
+        <div ng-if="markers && markersOptions">
+          <ui-gmap-markers models="markers" coords="'self'" icon="'icon'" events="markersEvents" options="markersOptions">
+          </ui-gmap-markers>
+        </div>
+
+        <div ng-if="my_marker">
+          <ui-gmap-marker coords="my_marker.coords" options="my_marker.options" idkey="my_marker.id">
+          </ui-gmap-marker>
+        </div>
+
+      </ui-gmap-google-map>
+    </div>
+
+    <a ui-sref="add_memo" class="btn btn-lg btn-primary">Post a Memo</a>
+    <section ng-if="memo_list.length">
+      <h2>Memos around you</h2>
+      <div class="media" ng-repeat="memo in memo_list track by memo._id">
+        <div class="media-left">
+          <img gravatar-src-once="memo.email" alt="{{memo.nickname}}" class="media-object" gravatar-size="64">
+        </div>
+        <div class="media-body">
+          <h4 class="media-heading">{{ memo.message }}</h4>
+          <p>
+            <span ng-switch="auth.profile.user_id == memo.user">
+            <strong class="bg-success" ng-switch-when="true">You, {{ memo.nickname }}</strong>
+            <span ng-switch-when="false">{{ memo.nickname }}</span>
+            </span>
+
+            posted on <i>{{ memo.date }}</i>
+            {{ memo.distance }} meters away
+          </p>
+          <!-- <pre>{{ memo | json }}</pre> -->
+        </div>
       </div>
-    </ui-gmap-window>
-
-    <ui-gmap-markers models="markers" coords="'self'" icon="'icon'" events="markersEvents" options="markersOptions">
-    </ui-gmap-markers>
-
-    <ui-gmap-marker coords="my_marker.coords" options="my_marker.options" idkey="my_marker.id">
-    </ui-gmap-marker>
-
-  </ui-gmap-google-map>
-</div>
-
-<div ng-repeat="memo in memo_list track by memo._id">
-  <pre>{{ memo | json }}</pre>
+    </section>
+    <a ui-sref="add_memo" class="btn btn-lg btn-primary">Post a Memo</a>
+  </div>
 </div>

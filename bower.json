@@ -9,6 +9,8 @@
     "angular": "~1.4.7",
     "angular-ui-router": "~0.2.15",
     "angular-cookies": "~1.4.7",
-    "restangular": "~1.5.1"
+    "restangular": "~1.5.1",
+    "angular-gravatar": "~0.4.1",
+    "Geolib": "geolib#~2.0.18"
   }
 }
