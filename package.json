@@ -1,6 +1,6 @@
 {
   "name": "memotown",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Location-based messaging",
   "author": "Mofosoft NKO 2015 Team",
   "licence": "Unlicensed",
@@ -27,7 +27,8 @@
     "express-session": "^1.12.1",
     "method-override": "^2.3.5",
     "mongoose": "^4.2.4",
-    "multer": "^1.1.0"
+    "multer": "^1.1.0",
+    "faker": "^3.0.1"
   },
   "scripts": {
     "prestart": "npm install",
@@ -36,8 +37,5 @@
   },
   "config": {
     "port": "3000"
-  },
-  "devDependencies": {
-    "faker": "^3.0.1"
   }
 }
