@@ -70,6 +70,9 @@ app.config( function myAppConfig ( authProvider, $httpProvider, $locationProvide
 });
 
 app.run(function($rootScope, auth, store, jwtHelper, $state, $geolocation) {
+
+  auth.hookEvents();
+
   $rootScope.map_location = {};
   $rootScope.location_ready = false;
 
