@@ -1,6 +1,11 @@
 var app = angular.module( 'memotown' );
 
-function MemoListController($scope, $rootScope, $http, $geolocation) {
+function MemoListController($scope, $injector) {
+  var auth = $injector.get('auth');
+  var Flash = $injector.get('Flash');
+  var $geolocation = $injector.get('$geolocation');
+  var $http = $injector.get('$http');
+
   $scope.memo_list = [];
   $scope.map = {};
   $scope.markers = [];
@@ -34,7 +39,7 @@ function MemoListController($scope, $rootScope, $http, $geolocation) {
         icon: '/img/circle.svg',
         animation: google.maps.Animation.DROP
       }
-    }
+    };
 
     $http({
       method: 'POST',
@@ -44,7 +49,8 @@ function MemoListController($scope, $rootScope, $http, $geolocation) {
         longitude: position.coords.longitude
       }
     })
-    .success(function(memos) {
+    .then(function(response) {
+      var memos = response.data;
       $scope.memo_list = memos;
       $scope.markers = memos.map(function(one_memo) {
         return {
@@ -76,10 +82,8 @@ function MemoListController($scope, $rootScope, $http, $geolocation) {
         },
         title: ''
       };
-    })
-    .error(function(e) {
-      console.log(e);
-      flash.create('danger', "Error");
+    }, function(e) {
+      Flash.create('danger', "Server Error: "+e.statusText);
     });
   });
 };
