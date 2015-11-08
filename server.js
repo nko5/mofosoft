@@ -61,6 +61,28 @@ app.get('/api/memos', function(req, res, next) {
     })
 });
 
+app.post('/api/memos/near', function(req, res, next) {
+
+  Memo
+    .find({
+      loc: {
+        $near : {
+          $maxDistance: 500,
+          $geometry: {
+            type: 'Point',
+            coordinates: [ parseFloat(req.body.longitude), parseFloat(req.body.latitude)]
+          }
+        }
+      }
+    })
+    .limit(50)
+    .exec( function (err, memos) {
+      if( err ) return next( err );
+
+      res.json(memos);
+    })
+});
+
 app.post('/api/memos', authenticate, function(req, res, next) {
 
   console.log('POSTING MEMO');
