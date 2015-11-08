@@ -9,10 +9,7 @@ function MemoController( $injector, $scope, $http, $state, $geolocation) {
 
     $scope.loading = true;
 
-    $geolocation.getCurrentPosition({
-      timeout: 5000,
-      maximumAge: 500
-    })
+    $geolocation.getCurrentPosition(geo_options)
     .then(function(position) {
       $http({
         method: 'POST',
@@ -23,14 +20,13 @@ function MemoController( $injector, $scope, $http, $state, $geolocation) {
           longitude: position.coords.longitude
         }
       })
-      .success(function() {
+      .then(function() {
         var message = '<strong>Well done!</strong> You just created a memo.';
         flash.create('success', message);
         $scope.loading = false;
 
         $state.go('map');
-      })
-      .error(function(e) {
+      }, function(e) {
         $scope.loading = false;
         console.log(e);
         flash.create('danger', "Error");

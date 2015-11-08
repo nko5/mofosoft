@@ -2,26 +2,36 @@ var app = angular.module( 'memotown' );
 
 function MemoListController($scope, $rootScope, $http, $geolocation) {
   $scope.memo_list = [];
-  $scope.map_center = {};
-  $scope.map_zoom = 14;
+  $scope.map = {};
   $scope.markers = [];
-
-  $scope.map_center = {
-    latitude:  $rootScope.map_location.latitude,
-    longitude: $rootScope.map_location.longitude
-  };
+  $scope.my_position = {};
 
   $geolocation
-  .getCurrentPosition($rootScope.geo_options)
+  .getCurrentPosition(geo_options)
   .then(function(position) {
-    $scope.map_center = {
-      latitude:  position.coords.latitude,
-      longitude: position.coords.longitude
+    $scope.map = {
+      center: {
+        latitude:  position.coords.latitude,
+        longitude: position.coords.longitude
+      },
+      zoom: 16
     };
+
+    $scope.my_marker = {
+      id: '-1',
+      coords: $scope.map.center,
+      options: {
+        draggable: false,
+        clickable: false,
+        icon: '/img/circle.svg',
+        animation: google.maps.Animation.DROP
+      }
+    }
 
     $http({
       url: '/api/memos'
-    }).success(function(memos) {
+    })
+    .success(function(memos) {
       $scope.memo_list = memos;
       $scope.markers = memos.map(function(one_memo) {
         return {
@@ -53,7 +63,8 @@ function MemoListController($scope, $rootScope, $http, $geolocation) {
         },
         title: ''
       };
-    }).error(function(e) {
+    })
+    .error(function(e) {
       console.log(e);
       flash.create('danger', "Error");
     });

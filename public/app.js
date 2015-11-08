@@ -1,3 +1,8 @@
+var geo_options = {
+  timeout: 5000,
+  maximumAge: 500
+};
+
 var app = angular.module( 'memotown', [
   'auth0',
   'angular-storage',
@@ -9,7 +14,7 @@ var app = angular.module( 'memotown', [
 ]);
 
 app.config(function ($stateProvider, $urlRouterProvider) {
-  $urlRouterProvider.otherwise("/map");
+  $urlRouterProvider.otherwise("/memos");
 
   $stateProvider
     .state('login', {
@@ -60,16 +65,9 @@ app.config( function myAppConfig ( authProvider, $httpProvider, $locationProvide
 });
 
 app.run(function($rootScope, auth, store, jwtHelper, $state, $geolocation) {
-
   $rootScope.map_location = {};
 
-  $rootScope.geo_options = {
-    timeout: 5000,
-    maximumAge: 500
-  }
-
-  $geolocation
-  .getCurrentPosition($rootScope.geo_options)
+  $geolocation.getCurrentPosition(geo_options)
   .then(function(position) {
     $rootScope.map_location = position.coords;
   });
@@ -88,7 +86,7 @@ app.run(function($rootScope, auth, store, jwtHelper, $state, $geolocation) {
   });
 });
 
-app.controller( 'ApplicationController', function ApplicationController ( $scope, $state, auth, store ) {
+app.controller( 'ApplicationController', function ApplicationController ( $scope, $state, auth, store) {
   $scope.auth = auth;
 
   $scope.logout = function() {

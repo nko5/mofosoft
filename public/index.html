@@ -50,7 +50,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" ui-sref="map">Memo Town</a>
+          <a class="navbar-brand" ng-class="[{'bg-success': map_location.latitude }, {'bg-danger': !map_location.latitude}]" ui-sref="map">Memo Town</a>
           <button class="btn btn-default navbar-btn" ng-click="login()"  ng-controller="LoginController" ng-if="!auth.profile">
             Log In
           </button>
@@ -61,6 +61,7 @@
             <li><a ui-sref="memos">Local Memos</a></li>
             <li><a ui-sref="add_memo">Post New Memo</a></li>
           </ul>
+          <strong class="navbar-text bg-danger" ng-if="!map_location.latitude">discovering location</strong>
           <p class="navbar-text navbar-right"><a ng-click="logout()" class="navbar-link">log out</a> <strong>{{auth.profile.name}}</strong></p>
         </div><!-- /.navbar-collapse -->
       </div><!-- /.container-fluid -->
@@ -68,7 +69,7 @@
 
     <div flash-message="5000" ></div>
     <div class="container" ui-view></div>
-    <footer class="container">
+    <footer class="container" ng-if="map_location.latitude">
       lat: {{ map_location.latitude }}
       lon: {{ map_location.longitude }}
     </footer>
