@@ -120,7 +120,8 @@ function MemoListController($scope, $injector, $interval) {
   $scope.updateLocation = updateLocation;
 
   var vm = this;
-  interval_pointer = $interval(updateLocation.bind(vm), 500);
+  interval_pointer = $interval(updateLocation.bind(vm), 30000);
+  updateLocation();
 };
 
 app.controller('MemoListController', MemoListController);
