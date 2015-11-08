@@ -20,22 +20,27 @@ app.config(function ($stateProvider, $urlRouterProvider) {
     .state('login', {
       url: "/login",
       templateUrl: "login/login.html",
-      controller: 'LoginController'
+      controller: 'LoginController',
+      data: {
+        title: 'Log In'
+      }
     })
     .state('add_memo', {
       url: "/add-memo",
       templateUrl: "memo/add.html",
-      controller: 'MemoController'
+      controller: 'MemoController',
+      data: {
+        title: 'Add Your Memo'
+      }
+
     })
     .state('memos', {
       url: "/memos",
       templateUrl: "memo/list.html",
-      controller: 'MemoListController'
-    })
-    .state('map', {
-      url: "/map",
-      templateUrl: "home/home.html",
-      controller: 'HomeController'
+      controller: 'MemoListController',
+      data: {
+        title: 'List of Local Memos'
+      }
     });
 })
 
@@ -66,10 +71,12 @@ app.config( function myAppConfig ( authProvider, $httpProvider, $locationProvide
 
 app.run(function($rootScope, auth, store, jwtHelper, $state, $geolocation) {
   $rootScope.map_location = {};
+  $rootScope.location_ready = false;
 
   $geolocation.getCurrentPosition(geo_options)
   .then(function(position) {
     $rootScope.map_location = position.coords;
+    $rootScope.location_ready = true;
   });
 
   $rootScope.$on('$stateChangeStart', function() {
@@ -96,9 +103,9 @@ app.controller( 'ApplicationController', function ApplicationController ( $scope
     $state.go('login');
   }
 
-  $scope.$on('$routeChangeSuccess', function(e, nextRoute){
-    if ( nextRoute.$$route && angular.isDefined( nextRoute.$$route.pageTitle ) ) {
-      $scope.pageTitle = nextRoute.$$route.pageTitle + ' | Memo Town' ;
+  $scope.$on('$stateChangeSuccess', function(e, next){
+    if ( next.data && next.data.title ) {
+      $scope.pageTitle = next.data.title + ' | Memo Town' ;
     }
   });
 });
