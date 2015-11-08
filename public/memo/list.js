@@ -32,7 +32,10 @@ function MemoListController($scope, $injector) {
 
     $scope.my_marker = {
       id: '-1',
-      coords: position.coords,
+      coords: {
+        latitude:  position.coords.latitude,
+        longitude: position.coords.longitude
+      },
       options: {
         draggable: false,
         clickable: false,
