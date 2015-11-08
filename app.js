@@ -40,7 +40,7 @@ app.set('port', process.env.PORT || process.env.npm_package_config_port || 3000)
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
-// app.use('/api', authenticate);
+app.use('/api', authenticate);
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/bower_components',  express.static(path.join(__dirname, 'bower_components')));

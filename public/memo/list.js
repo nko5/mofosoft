@@ -28,7 +28,8 @@ function MemoListController($scope, $rootScope, $http, $geolocation) {
           id: one_memo._id,
           longitude: one_memo.loc.coordinates[0],
           latitude: one_memo.loc.coordinates[1],
-          title: one_memo.message
+          title: one_memo.message,
+          icon: '/assets/img/comment-map-icon.png'
         }
       });
 
@@ -38,6 +39,10 @@ function MemoListController($scope, $rootScope, $http, $geolocation) {
           $scope.window.title = model.title;
           $scope.window.show = true;
         }
+      };
+
+      $scope.markersOptions = {
+        animation: google.maps.Animation.DROP
       };
 
       $scope.window = {
