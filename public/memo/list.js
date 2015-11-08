@@ -37,7 +37,12 @@ function MemoListController($scope, $rootScope, $http, $geolocation) {
     }
 
     $http({
-      url: '/api/memos'
+      method: 'POST',
+      url: '/api/memos/near',
+      data: {
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude
+      }
     })
     .success(function(memos) {
       $scope.memo_list = memos;
