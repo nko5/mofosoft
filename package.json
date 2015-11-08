@@ -1,6 +1,6 @@
 {
   "name": "memotown",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Location-based messaging",
   "author": "Mofosoft NKO 2015 Team",
   "licence": "Unlicensed",
@@ -14,7 +14,7 @@
       "name": "Rudy"
     }
   ],
-  "main": "./app.js",
+  "main": "./server.js",
   "dependencies": {
     "auth0": "^0.8.2",
     "body-parser": "^1.14.1",
@@ -31,7 +31,7 @@
   },
   "scripts": {
     "prestart": "npm install",
-    "start": "node app.js",
+    "start": "node server.js",
     "postinstall": "node scripts/postinstall.js && bower install"
   },
   "config": {
