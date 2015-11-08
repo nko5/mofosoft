@@ -27,7 +27,10 @@ function MemoListController($scope, $rootScope, $http, $geolocation) {
 
     $scope.my_marker = {
       id: '-1',
-      coords: $scope.map.center,
+      coords: {
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude
+      },
       options: {
         draggable: false,
         clickable: false,
