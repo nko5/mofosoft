@@ -1,5 +1,10 @@
 <ui-gmap-google-map center='map_center' zoom='map_zoom'>
-  <ui-gmap-markers models="markers" coords="'self'" icon="'icon'">
+  <ui-gmap-window show="window.show" coords="window.model" options="window.options" closeClick="window.closeClick()">
+    <div style="color: black">
+      {{window.title}}
+    </div>
+  </ui-gmap-window>
+  <ui-gmap-markers models="markers" coords="'self'" icon="'icon'" events="markersEvents">
   </ui-gmap-markers>
 </ui-gmap-google-map>
 

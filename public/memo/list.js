@@ -31,12 +31,28 @@ function MemoListController($scope, $rootScope, $http, $geolocation) {
           title: one_memo.message
         }
       });
+
+      $scope.markersEvents = {
+        click: function(marker, eventName, model, arguments) {
+          $scope.window.model = model;
+          $scope.window.title = model.title;
+          $scope.window.show = true;
+        }
+      };
+
+      $scope.window = {
+        marker: {},
+        show: false,
+        closeClick: function() {
+          this.show = false;
+        },
+        title: ''
+      };
     }).error(function(e) {
       console.log(e);
       flash.create('danger', "Error");
     });
   });
-
 };
 
 app.controller('MemoListController', MemoListController);
