@@ -25,7 +25,7 @@ function MemoController( $injector, $scope, $http, $state, $geolocation) {
         flash.create('success', message);
         $scope.loading = false;
 
-        $state.go('map');
+        $state.go('memos');
       }, function(e) {
         $scope.loading = false;
         console.log(e);
